@@ -1,0 +1,15 @@
+name: ci
+on:
+  push:
+    branches: [sabit, sha, diger]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref == 'refs/heads/sha' && format('{0}-{1}', github.ref, github.sha) || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/sha' && github.ref != 'refs/heads/sabit' }}
+jobs:
+  bekle:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: sleep 120
